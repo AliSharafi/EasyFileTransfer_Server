@@ -13,12 +13,29 @@ namespace EasyFileTransfer
 {
     public partial class FrmSettings : Form
     {
+        List<Employee> Emp = new List<Employee>()
+            {
+                new Employee {Username = "Joe", },
+                new Employee  {Username= "Misha" ,},
+            };
         public FrmSettings()
         {
             InitializeComponent();
-            AppConfigs conf = new AppConfigs();
-            conf.Test.Add("sdf","sdfsdf");
-            propertyGrid1.SelectedObject = conf;
+            
+            var bindingList = new BindingList<Employee>(Emp);
+            var source = new BindingSource(bindingList, null);
+            grdValidUsers.DataSource = source;
+            grdValidExtensions.DataSource = source;
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
