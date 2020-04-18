@@ -24,7 +24,6 @@ namespace EasyFileTransfer
         string _selectedFile;
         #endregion
 
-
         #region Form event handlers
         public frmMain(string[] args, FileTransfer ft)
         { 
@@ -49,7 +48,7 @@ namespace EasyFileTransfer
         }
         private void frmMain_FormClosed(object sender, FormClosedEventArgs e)
         {
-            WindowsContextMenu.Remove("Send To Server");
+            WindowsContextMenu.Remove("Send To My Client");
             _fileTransfer.Stop();
         }
         #endregion

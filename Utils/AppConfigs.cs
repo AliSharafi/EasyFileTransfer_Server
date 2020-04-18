@@ -4,69 +4,63 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
-using System.ComponentModel;
-using System.Collections;
-using System.ComponentModel.Design;
 using System.Web.Script.Serialization;
 
 namespace EasyFileTransfer.Utils
 {
     public class AppConfigs
     {
-        JavaScriptSerializer serializer = new JavaScriptSerializer();
-
-        [Category("Client Settings")]
-        [DisplayName("Save Path")]
-        [Description("Where to save files that server sends to me?")]
-        public string SavePath
+        public AppConfigs()
         {
-            get
-            {
-                return ConfigurationManager.AppSettings["SavePath"];
-            }
-            set
-            {
-                AddOrUpdateAppSettings("SavePath", value);
-            }
+            Employees = new List<Employee>();
         }
-        [Category("Client Settings")]
-        [DisplayName("Server IP")]
-        [Description("Server IP address ")]
-        public string ServerIP
+
+        private int _maxSize;
+        public int MaxSize
         {
             get
             {
-                return ConfigurationManager.AppSettings["ServerIP"];
+                return _maxSize;
             }
             set
             {
-                AddOrUpdateAppSettings("ServerIP", value);
+                _maxSize = value;
             }
         }
 
-
-        EmployeeCollection _e = new EmployeeCollection();
-
-        [Editor(typeof(EmployeeCollectionEditor),
-                   typeof(System.Drawing.Design.UITypeEditor))]
-        [Category("Organization")]
-        [DisplayName("Employees")]
-        [Description("A collection of the employees within the organization")]
-        public EmployeeCollection Employees
+        List<Employee> _employees;
+        public List<Employee> Employees
         {
-
             get
             {
-                return Properties.Settings1.Default.Employees;
+                return _employees;
             }
             set
             {
-                Properties.Settings1.Default.Employees = value;
+                _employees = value;
             }
 
         }
 
-        void AddOrUpdateAppSettings(string key, string value)
+        public static AppConfigs Load()
+        {
+            JavaScriptSerializer _serializer = new JavaScriptSerializer();
+
+            var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            var settings = configFile.AppSettings.Settings;
+            if(settings["AppConfigs"] != null && settings["AppConfigs"].Value != "")
+            {
+                return (AppConfigs) _serializer.Deserialize(settings["AppConfigs"].Value,typeof(AppConfigs));
+            }
+            return new AppConfigs();
+        }
+
+        public static void Save(AppConfigs conf)
+        {
+            JavaScriptSerializer _serializer = new JavaScriptSerializer();
+            AddOrUpdateAppSettings("AppConfigs",_serializer.Serialize(conf));
+        }
+        static void AddOrUpdateAppSettings(string key, string value)
         {
             try
             {
@@ -95,68 +89,32 @@ namespace EasyFileTransfer.Utils
         #region Private Variables
         private string _userName;
         private string _savePath;
+        private string _ipAddres;
         #endregion
 
         #region Public Properties
-        [Category("Employee")]
-        [DisplayName("Username")]
-        [Description("Domain user name eg Mabna\\Sharafi")]
         public string Username
         {
             get { return _userName; }
             set { _userName = value; }
         }
-
-        [Category("Employee")]
-        [DisplayName("Save Path")]
-        [Description("Where to store files sent by this employee? eg D:\\Users\\Sharafi")]
         public string SavePath
         {
             get { return _savePath; }
             set { _savePath = value; }
         }
+        public string IPAddress
+        {
+            get
+            {
+                return _ipAddres;
+            }
+            set
+            {
+                _ipAddres = value;
+            }
+        }
         #endregion
     }
 
-    public class EmployeeCollection : CollectionBase
-    {
-        public Employee this[int index]
-        {
-            get { return (Employee)List[index]; }
-        }
-        public void Add(Employee emp)
-        {
-            List.Add(emp);
-        }
-        public void Remove(Employee emp)
-        {
-            List.Remove(emp);
-        }
-    }
-
-    public class EmployeeCollectionEditor : CollectionEditor
-    {
-        public EmployeeCollectionEditor(Type type)
-            : base(type)
-        {
-
-        }
-        public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
-        {
-            object result = base.EditValue(context, provider, value);
-
-            // assign the temporary collection from the UI to the property
-            ((AppConfigs)context.Instance).Employees = (EmployeeCollection)result;
-
-            return result;
-        }
-        protected override string GetDisplayText(object value)
-        {
-            Employee item = new Employee();
-            item = (Employee)value;
-
-            return base.GetDisplayText(string.Format("{0}", item.Username));
-        }
-
-    }
 }
