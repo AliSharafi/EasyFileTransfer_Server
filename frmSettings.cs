@@ -15,7 +15,8 @@ namespace EasyFileTransfer
     public partial class FrmSettings : Form
     {
 
-        BindingList<Employee> bindingList;
+        BindingList<Employee>   ValidUsers_bindingList;
+        BindingList<FileExtensions>     ValidExtensions_bindingList;
         public FrmSettings()
         {
             InitializeComponent();
@@ -23,10 +24,13 @@ namespace EasyFileTransfer
 
             if (conf != null)
             {
-                bindingList = new BindingList<Employee>(conf.Employees);
-                var source = new BindingSource(bindingList, null);
-                grdValidUsers.DataSource = source;
-                grdValidExtensions.DataSource = source;
+                ValidUsers_bindingList = new BindingList<Employee>(conf.Employees);
+                var sourceUsers = new BindingSource(ValidUsers_bindingList, null);
+                grdValidUsers.DataSource = sourceUsers;
+
+                ValidExtensions_bindingList = new BindingList<FileExtensions>(conf.ValidExtensions);
+                var sourceExtensions = new BindingSource(ValidExtensions_bindingList, null);
+                grdValidExtensions.DataSource = sourceExtensions;
             }
 
 
@@ -40,7 +44,8 @@ namespace EasyFileTransfer
             {
                 conf.MaxSize = MaxSize;
             }
-            conf.Employees = bindingList.ToList<Employee>();
+            conf.Employees       = ValidUsers_bindingList.ToList<Employee>();
+            conf.ValidExtensions = ValidExtensions_bindingList.ToList<FileExtensions>();
 
             AppConfigs.Save(conf);
             Close();
@@ -52,3 +57,4 @@ namespace EasyFileTransfer
         }
     }
 }
+

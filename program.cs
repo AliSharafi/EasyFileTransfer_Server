@@ -16,11 +16,12 @@ namespace EasyFileTransfer
         [STAThread]
         static void Main(string[] args)
         {
+            int _port = new Random().Next(1100, 9900);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
             // test if this is the first instance and register receiver, if so.
-            if (SingletonController.IamFirst(new SingletonController.ReceiveDelegate(SecondRun)))
+            if (SingletonController.IamFirst(new SingletonController.ReceiveDelegate(SecondRun),_port))
             {
                 WindowsContextMenu.Add("Send To My Client");
                 Application.Run(new frmMain(args,new FileTransfer(true)));
@@ -30,7 +31,7 @@ namespace EasyFileTransfer
             else
             {
                 // send command line args to running app, then terminate
-                SingletonController.Send(args);
+                SingletonController.Send(args,_port);
             }
             SingletonController.Cleanup();
         }

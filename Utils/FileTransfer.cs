@@ -1,9 +1,11 @@
-﻿using System;
+﻿using EasyFileTransfer.Utils;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.ServiceProcess;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,7 +31,6 @@ namespace EasyFileTransfer
 
         public FileTransfer(bool listen)
         {
-            
             if (listen)
             {
                 _listenThread = new Thread(new ThreadStart(StartListening));
@@ -106,7 +107,7 @@ namespace EasyFileTransfer
                 {
                     fileNameLen = BitConverter.ToInt32(state.buffer, 0);
                     string fileName = Encoding.UTF8.GetString(state.buffer, 4, fileNameLen);
-                    _receivedPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + fileName;
+                    _receivedPath = Helper.GetCurrentEmployeePath() + "\\" + fileName;
                     _flag++;
                 }
                 if (_flag >= 1)

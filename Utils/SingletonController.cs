@@ -29,9 +29,9 @@ namespace EasyFileTransfer
             }
         }
 
-        public static bool IamFirst(ReceiveDelegate r)
+        public static bool IamFirst(ReceiveDelegate r,int port)
         {
-            if (IamFirst())
+            if (IamFirst(port))
             {
                 Receiver += r;
                 return true;
@@ -42,7 +42,7 @@ namespace EasyFileTransfer
             }
         }
 
-        public static bool IamFirst()
+        public static bool IamFirst(int Port)
         {
             string m_UniqueIdentifier;
             string assemblyName = System.Reflection.Assembly.GetExecutingAssembly().GetName(false).CodeBase;
@@ -53,7 +53,7 @@ namespace EasyFileTransfer
             if (m_Mutex.WaitOne(1, true))
             {
                 //We locked it! We are the first instance!!!    
-                CreateInstanceChannel();
+                CreateInstanceChannel(Port);
                 return true;
             }
             else
@@ -65,9 +65,9 @@ namespace EasyFileTransfer
             }
         }
 
-        private static void CreateInstanceChannel()
+        private static void CreateInstanceChannel(int Port)
         {
-            m_TCPChannel = new TcpChannel(1234);
+            m_TCPChannel = new TcpChannel(Port);
             ChannelServices.RegisterChannel(m_TCPChannel, false);
             RemotingConfiguration.RegisterWellKnownServiceType(
                 Type.GetType("EasyFileTransfer.SingletonController"),
@@ -91,14 +91,14 @@ namespace EasyFileTransfer
             m_TCPChannel = null;
         }
 
-        public static void Send(string[] s)
+        public static void Send(string[] s,int Port)
         {
             SingletonController ctrl;
             TcpChannel channel = new TcpChannel();
             ChannelServices.RegisterChannel(channel, false);
             try
             {
-                ctrl = (SingletonController)Activator.GetObject(typeof(SingletonController), "tcp://localhost:1234/SingletonController");
+                ctrl = (SingletonController)Activator.GetObject(typeof(SingletonController), string.Format("tcp://localhost:{0}/SingletonController",Port.ToString()));
             }
             catch (Exception e)
             {

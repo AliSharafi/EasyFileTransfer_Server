@@ -13,6 +13,7 @@ namespace EasyFileTransfer.Utils
         public AppConfigs()
         {
             Employees = new List<Employee>();
+            ValidExtensions = new List<FileExtensions>();
         }
 
         private int _maxSize;
@@ -40,6 +41,19 @@ namespace EasyFileTransfer.Utils
                 _employees = value;
             }
 
+        }
+
+        List<FileExtensions> _validExtensions;
+        public List<FileExtensions> ValidExtensions
+        {
+            get
+            {
+                return _validExtensions;
+            }
+            set
+            {
+                _validExtensions = value;
+            }
         }
 
         public static AppConfigs Load()
@@ -82,6 +96,9 @@ namespace EasyFileTransfer.Utils
                 Console.WriteLine("Error writing app settings");
             }
         }
+    
+        
+
     }
 
     public class Employee
@@ -115,6 +132,25 @@ namespace EasyFileTransfer.Utils
             }
         }
         #endregion
+    }
+
+    public class FileExtensions
+    {
+        private string _extension;
+
+        public string Extension
+        {
+            get
+            {
+                return _extension;
+            }
+            set
+            {
+                _extension = value;
+
+            }
+        }
+
     }
 
 }
