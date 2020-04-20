@@ -17,8 +17,6 @@ namespace EasyFileTransfer
 {
     public partial class frmMain : Form
     {
-
-
         #region fields
         FileTransfer _fileTransfer;
         string _selectedFile;
@@ -26,7 +24,7 @@ namespace EasyFileTransfer
 
         #region Form event handlers
         public frmMain(string[] args, FileTransfer ft)
-        { 
+        {
             InitializeComponent();
 
             // Place th form bottom right
@@ -37,19 +35,22 @@ namespace EasyFileTransfer
             //This object initiates from program.Main()
             _fileTransfer = ft;
 
-           // WindowsContextMenu.Add("Send To Server");
-
             //Running from explorer context menu
             if (args.Length > 0)
             {
                 _selectedFile = args[0];
                 DoSend();
             }
+
+            //Check service installation and status
+            DoServiceStuff();
         }
+
+
         private void frmMain_FormClosed(object sender, FormClosedEventArgs e)
         {
             WindowsContextMenu.Remove("Send To My Client");
-            _fileTransfer.Stop();
+           // _fileTransfer.Stop();
         }
         #endregion
 
@@ -112,6 +113,25 @@ namespace EasyFileTransfer
         }
         #endregion
 
-       
+        #region Windows service 
+        private void DoServiceStuff()
+        {
+            string EFTServiceName = "EFTService";
+            ServiceHelper.Uninstall(EFTServiceName);
+            if (ServiceHelper.ServiceIsInstalled(EFTServiceName))
+            {
+                if( ServiceHelper.GetServiceStatus(EFTServiceName) != ServiceState.Running)
+                {
+                    ServiceHelper.StartService(EFTServiceName);
+                }
+            }
+            else
+            {
+                string ServicePath = "F:\\Source\\EFT_Service\\EFTService\\bin\\Debug\\EFTService.exe --p " + Directory.GetCurrentDirectory() + "\\app.Config";
+                //string ServicePath = string.Concat(Directory.GetCurrentDirectory(), "\\", "EFTService.exe");
+                ServiceHelper.InstallAndStart(EFTServiceName, EFTServiceName, ServicePath);
+            }
+        }
+        #endregion
     }
 }
