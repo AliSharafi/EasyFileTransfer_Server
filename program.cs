@@ -24,9 +24,7 @@ namespace EasyFileTransfer
             if (SingletonController.IamFirst(new SingletonController.ReceiveDelegate(SecondRun),_port))
             {
                 WindowsContextMenu.Add("Send To My Client");
-                Application.Run(new frmMain(args,new FileTransfer(false)));
-                
-
+                Application.Run(new frmMain(args,new FileTransfer()));
             }
             else
             {
@@ -38,7 +36,7 @@ namespace EasyFileTransfer
 
         private static void SecondRun(string[] args)
         {
-            new FileTransfer(false).Send(args[0]);
+            new FileTransfer().Send(args[0]);
         }
     }
 }

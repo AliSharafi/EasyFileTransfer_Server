@@ -16,11 +16,11 @@ namespace EasyFileTransfer
     public class FileTransfer
     {
         #region Constants
-        const int _port = 2345;
+        
+        const int _portSend = 2346;
         #endregion
 
         #region fields
-        public string _serverIP = "127.0.0.1";
         Thread _listenThread;
         public Label InfoLabel;
         int _flag = 0;
@@ -29,13 +29,9 @@ namespace EasyFileTransfer
         public static ManualResetEvent allDone = new ManualResetEvent(false);
         #endregion
 
-        public FileTransfer(bool listen)
+        public FileTransfer()
         {
-            if (listen)
-            {
-                _listenThread = new Thread(new ThreadStart(StartListening));
-                _listenThread.Start();
-            }
+            
         }
 
         #region Send File
@@ -54,85 +50,9 @@ namespace EasyFileTransfer
             fileName.CopyTo(m_clientData, 4);
             fileData.CopyTo(m_clientData, 4 + fileName.Length);
 
-            clientSock.Connect(_serverIP, _port); //target machine's ip address and the port number
+            clientSock.Connect(Helper.GetCurrentEmployeeIpAddress() , _portSend); //target machine's ip address and the port number
             clientSock.Send(m_clientData);
             clientSock.Close();
-        }
-        #endregion
-
-        #region Receive file
-        private void StartListening()
-        {
-            //byte[] bytes = new Byte[1024];
-            IPEndPoint ipEnd = new IPEndPoint(IPAddress.Any, _port);
-            Socket listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            try
-            {
-                listener.Bind(ipEnd);
-                listener.Listen(32);
-                while (true)
-                {
-                    allDone.Reset();
-                    listener.BeginAccept(new AsyncCallback(AcceptCallback), listener);
-                    allDone.WaitOne();
-                }
-            }
-            catch (Exception ex)
-            {
-            }
-        }
-        public void AcceptCallback(IAsyncResult ar)
-        {
-            allDone.Set();
-
-            Socket listener = (Socket)ar.AsyncState;
-            Socket handler = listener.EndAccept(ar);
-
-            StateObject state = new StateObject();
-            state.workSocket = handler;
-            handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
-            new AsyncCallback(ReadCallback), state);
-            _flag = 0;
-        }
-        public void ReadCallback(IAsyncResult ar)
-        {
-            int fileNameLen = 1;
-            String content = String.Empty;
-            StateObject state = (StateObject)ar.AsyncState;
-            Socket handler = state.workSocket;
-            int bytesRead = handler.EndReceive(ar);
-            if (bytesRead > 0)
-            {
-                if (_flag == 0)
-                {
-                    fileNameLen = BitConverter.ToInt32(state.buffer, 0);
-                    string fileName = Encoding.UTF8.GetString(state.buffer, 4, fileNameLen);
-                    _receivedPath = Helper.GetCurrentEmployeePath() + "\\" + fileName;
-                    _flag++;
-                }
-                if (_flag >= 1)
-                {
-                    BinaryWriter writer = new BinaryWriter(File.Open(_receivedPath , FileMode.Append));
-                    if (_flag == 1)
-                    {
-                        writer.Write(state.buffer, 4 + fileNameLen, bytesRead - (4 + fileNameLen));
-                        _flag++;
-                    }
-                    else
-                        writer.Write(state.buffer, 0, bytesRead);
-                    writer.Close();
-                    handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
-                    new AsyncCallback(ReadCallback), state);
-                }
-            }
-            else
-            {
-                //InfoLabel.Invoke(new ReceiveDelegate(LabelWriter));
-            }
-        }
-        public void LabelWriter()
-        {
-            InfoLabel.Text = "Data has been received";
         }
         #endregion
 

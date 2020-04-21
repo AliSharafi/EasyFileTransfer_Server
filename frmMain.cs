@@ -35,22 +35,20 @@ namespace EasyFileTransfer
             //This object initiates from program.Main()
             _fileTransfer = ft;
 
+            //Check service installation and status
+            DoServiceStuff();
+
             //Running from explorer context menu
             if (args.Length > 0)
             {
                 _selectedFile = args[0];
                 DoSend();
             }
-
-            //Check service installation and status
-            DoServiceStuff();
         }
-
 
         private void frmMain_FormClosed(object sender, FormClosedEventArgs e)
         {
             WindowsContextMenu.Remove("Send To My Client");
-           // _fileTransfer.Stop();
         }
         #endregion
 
@@ -90,7 +88,7 @@ namespace EasyFileTransfer
         #endregion
 
         #region Context menu
-        private void sendToServerToolStripMenuItem_Click(object sender, EventArgs e)
+        private void sendToMyClientToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Show the open file dialog to select our data.
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
@@ -98,16 +96,12 @@ namespace EasyFileTransfer
 
             DoSend();
         }
-        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FrmSettings settings = new FrmSettings();
             settings.Show();
         }
-        private void closeToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
@@ -117,21 +111,26 @@ namespace EasyFileTransfer
         private void DoServiceStuff()
         {
             string EFTServiceName = "EFTService";
-            ServiceHelper.Uninstall(EFTServiceName);
+            string[] args = new string[1] { Directory.GetCurrentDirectory() + "\\EasyFileTransfer_Server.exe.config" };
+            //ServiceHelper.Uninstall(EFTServiceName);
+
             if (ServiceHelper.ServiceIsInstalled(EFTServiceName))
             {
-                if( ServiceHelper.GetServiceStatus(EFTServiceName) != ServiceState.Running)
+                if ( ServiceHelper.GetServiceStatus(EFTServiceName) != ServiceState.Running)
                 {
-                    ServiceHelper.StartService(EFTServiceName);
+                    ServiceHelper.StartService(EFTServiceName,args);
                 }
             }
             else
             {
-                string ServicePath = "F:\\Source\\EFT_Service\\EFTService\\bin\\Debug\\EFTService.exe --p " + Directory.GetCurrentDirectory() + "\\app.Config";
-                //string ServicePath = string.Concat(Directory.GetCurrentDirectory(), "\\", "EFTService.exe");
-                ServiceHelper.InstallAndStart(EFTServiceName, EFTServiceName, ServicePath);
+                string ServicePath = Directory.GetCurrentDirectory() + "\\EFTService.exe";
+                
+                ServiceHelper.InstallAndStart(EFTServiceName, EFTServiceName, ServicePath,args);
             }
         }
+
         #endregion
+
+
     }
 }

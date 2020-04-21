@@ -32,7 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.sendToServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sendToMyClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
@@ -45,32 +45,32 @@
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.sendToServerToolStripMenuItem,
+            this.sendToMyClientToolStripMenuItem,
             this.settingsToolStripMenuItem,
             this.closeToolStripMenuItem1});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(170, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 92);
             // 
-            // sendToServerToolStripMenuItem
+            // sendToMyClientToolStripMenuItem
             // 
-            this.sendToServerToolStripMenuItem.Name = "sendToServerToolStripMenuItem";
-            this.sendToServerToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-            this.sendToServerToolStripMenuItem.Text = "Send To My Client";
-            this.sendToServerToolStripMenuItem.Click += new System.EventHandler(this.sendToServerToolStripMenuItem_Click);
+            this.sendToMyClientToolStripMenuItem.Name = "sendToMyClientToolStripMenuItem";
+            this.sendToMyClientToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.sendToMyClientToolStripMenuItem.Text = "Send To My Client";
+            this.sendToMyClientToolStripMenuItem.Click += new System.EventHandler(this.sendToMyClientToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // closeToolStripMenuItem1
             // 
             this.closeToolStripMenuItem1.Name = "closeToolStripMenuItem1";
-            this.closeToolStripMenuItem1.Size = new System.Drawing.Size(169, 22);
+            this.closeToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.closeToolStripMenuItem1.Text = "Close";
-            this.closeToolStripMenuItem1.Click += new System.EventHandler(this.closeToolStripMenuItem1_Click);
+            this.closeToolStripMenuItem1.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
             // frmMain
             // 
@@ -100,7 +100,7 @@
 
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem sendToServerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem sendToMyClientToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem1;
     }

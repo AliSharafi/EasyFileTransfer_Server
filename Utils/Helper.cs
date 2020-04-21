@@ -8,7 +8,7 @@ namespace EasyFileTransfer.Utils
 {
     public class Helper
     {
-        public static string GetCurrentEmployeePath()
+        public static string GetCurrentEmployeeIpAddress()
         {
             AppConfigs conf = AppConfigs.Load();
             string Username = System.Security.Principal.WindowsIdentity.GetCurrent().Name.ToLower();
@@ -17,7 +17,7 @@ namespace EasyFileTransfer.Utils
             Employee CurrentEmployee = emp.Where(e => e.Username.ToLower() == Username).FirstOrDefault();
             if (CurrentEmployee != null)
             {
-                return CurrentEmployee.SavePath;
+                return CurrentEmployee.IPAddress;
             }
 
             return null;

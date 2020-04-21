@@ -110,7 +110,7 @@ namespace EasyFileTransfer.Utils
             }
         }
 
-        public static void InstallAndStart(string serviceName, string displayName, string fileName)
+        public static void InstallAndStart(string serviceName, string displayName, string fileName,string[] args)
         {
             IntPtr scm = OpenSCManager(ScmAccessRights.AllAccess);
 
@@ -126,7 +126,7 @@ namespace EasyFileTransfer.Utils
 
                 try
                 {
-                    StartService(service);
+                    StartService(service,args);
                 }
                 finally
                 {
@@ -139,7 +139,7 @@ namespace EasyFileTransfer.Utils
             }
         }
 
-        public static void StartService(string serviceName)
+        public static void StartService(string serviceName,string[] args)
         {
             IntPtr scm = OpenSCManager(ScmAccessRights.Connect);
 
@@ -151,7 +151,7 @@ namespace EasyFileTransfer.Utils
 
                 try
                 {
-                    StartService(service);
+                    StartService(service,args);
                 }
                 finally
                 {
@@ -189,11 +189,10 @@ namespace EasyFileTransfer.Utils
             }
         }
 
-        private static void StartService(IntPtr service)
+        private static void StartService(IntPtr service,string[] args)
         {
             SERVICE_STATUS status = new SERVICE_STATUS();
-            string[] a = new string[1] {"Ssdfs"};
-            StartService(service, 1, a);
+            StartService(service, args.Length, args);
             var changedStatus = WaitForServiceStatus(service, ServiceState.StartPending, ServiceState.Running);
             if (!changedStatus)
                 throw new ApplicationException("Unable to start service");
