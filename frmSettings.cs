@@ -33,6 +33,10 @@ namespace EasyFileTransfer
                 grdValidExtensions.DataSource = sourceExtensions;
             }
 
+            ServiceState st = ServiceHelper.GetServiceStatus("EFTService");
+            lblServicestatus.Text = Enum.GetName(typeof(ServiceState), st);
+
+            btnUninstall.Visible = new[] { 1, 4, 7 }.Contains((int)st);
 
         }
 
