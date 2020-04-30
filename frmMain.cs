@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace EasyFileTransfer
         #region fields
         FileTransfer _fileTransfer;
         string _selectedFile;
+        FileSystemWatcher watcher;
         #endregion
 
         #region Form event handlers
@@ -43,6 +45,66 @@ namespace EasyFileTransfer
             {
                 _selectedFile = args[0];
                 DoSend();
+            }
+            else
+            {
+                StartWatching();
+            }
+        }
+
+        /// <summary>
+        /// if a text is sent from client it stores in a file called clipboard.txt
+        /// </summary>
+        private void StartWatching()
+        {
+
+            watcher = new FileSystemWatcher();
+            watcher.Path = string.Concat(Helper.GetCurrentEmployeeSavePath(), "\\");
+            watcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.LastAccess | NotifyFilters.CreationTime | NotifyFilters.FileName;
+            watcher.Filter = "clipboard.txt";
+
+            watcher.Created += Watcher_Created;
+            watcher.Changed += Watcher_Created;
+
+            watcher.EnableRaisingEvents = true;
+        }
+
+        DateTime lastRead = DateTime.MinValue;
+        private void Watcher_Created(object sender, FileSystemEventArgs e)
+        {
+            try
+            {
+                DateTime lastWriteTime = File.GetLastWriteTime(e.FullPath);
+                if (lastWriteTime != lastRead)
+                {
+                    Thread.Sleep(100);
+                    string Content = "";
+                    using (StreamReader sr = new StreamReader(File.Open(e.FullPath, FileMode.Open, FileAccess.Read, FileShare.Read)))
+                    {
+                        string s = "";
+                        while ((s = sr.ReadLine()) != null)
+                        {
+                            Content += s + Environment.NewLine;
+                        }
+                    }
+                    lastRead = lastWriteTime;
+
+                    FrmClipboard f = FrmClipboard.GetForm(Content);
+                    f.Invoke(new MethodInvoker(delegate ()
+                    {
+                        f.ShowDialog();
+                    }));
+                }
+            }
+            catch (Exception ex)
+            {
+#if DEBUG
+                using (EventLog eventLog = new EventLog("Application"))
+                {
+                    eventLog.Source = "EFTServer";
+                    eventLog.WriteEntry("Watcher_Created : " + ex.Message, EventLogEntryType.Error, 101, 1);
+                }
+#endif
             }
         }
 
@@ -110,22 +172,29 @@ namespace EasyFileTransfer
         #region Windows service 
         private void DoServiceStuff()
         {
-            string EFTServiceName = "EFTService";
-            string[] args = new string[1] { Directory.GetCurrentDirectory() + "\\EasyFileTransfer_Server.exe.config" };
-            //ServiceHelper.Uninstall(EFTServiceName);
-
-            if (ServiceHelper.ServiceIsInstalled(EFTServiceName))
+            try
             {
-                if ( ServiceHelper.GetServiceStatus(EFTServiceName) != ServiceState.Running)
+                string EFTServiceName = "EFTService";
+                string[] args = new string[1] { Directory.GetCurrentDirectory() + "\\EasyFileTransfer_Server.exe.config" };
+                //ServiceHelper.Uninstall(EFTServiceName);
+
+                if (ServiceHelper.ServiceIsInstalled(EFTServiceName))
                 {
-                    ServiceHelper.StartService(EFTServiceName,args);
+                    if (ServiceHelper.GetServiceStatus(EFTServiceName) != ServiceState.Running)
+                    {
+                        ServiceHelper.StartService(EFTServiceName, args);
+                    }
+                }
+                else
+                {
+                    string ServicePath = Directory.GetCurrentDirectory() + "\\EFTService.exe";
+
+                    ServiceHelper.InstallAndStart(EFTServiceName, EFTServiceName, ServicePath, args);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                string ServicePath = Directory.GetCurrentDirectory() + "\\EFTService.exe";
-                
-                ServiceHelper.InstallAndStart(EFTServiceName, EFTServiceName, ServicePath,args);
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

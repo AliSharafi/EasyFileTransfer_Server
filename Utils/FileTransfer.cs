@@ -50,7 +50,7 @@ namespace EasyFileTransfer
             fileName.CopyTo(m_clientData, 4);
             fileData.CopyTo(m_clientData, 4 + fileName.Length);
 
-            clientSock.Connect(Helper.GetCurrentEmployeeIpAddress() , _portSend); //target machine's ip address and the port number
+            clientSock.Connect(Helper.GetCurrentEmployeeIPaddress() , _portSend); //target machine's ip address and the port number
             clientSock.Send(m_clientData);
             clientSock.Close();
         }

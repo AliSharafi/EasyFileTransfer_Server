@@ -31,20 +31,33 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmSettings));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtMaxSize = new System.Windows.Forms.TextBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnTestConnectivity = new System.Windows.Forms.Button();
+            this.txtPort = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtIPAddress = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnUninstall = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lblServicestatus = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.txtMaxSize = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.grdValidUsers = new System.Windows.Forms.DataGridView();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.grdValidExtensions = new System.Windows.Forms.DataGridView();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.lblServicestatus = new System.Windows.Forms.Label();
-            this.btnUninstall = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.lblCurrentUsername = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdValidUsers)).BeginInit();
             this.tabPage3.SuspendLayout();
@@ -65,12 +78,9 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.btnUninstall);
-            this.tabPage1.Controls.Add(this.lblServicestatus);
-            this.tabPage1.Controls.Add(this.label3);
-            this.tabPage1.Controls.Add(this.label2);
-            this.tabPage1.Controls.Add(this.txtMaxSize);
-            this.tabPage1.Controls.Add(this.label1);
+            this.tabPage1.Controls.Add(this.groupBox3);
+            this.tabPage1.Controls.Add(this.groupBox2);
+            this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Size = new System.Drawing.Size(547, 412);
@@ -78,33 +88,150 @@
             this.tabPage1.Text = "Transfer Limits";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // label2
+            // groupBox3
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(459, 10);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(69, 15);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Megabyte";
+            this.groupBox3.Controls.Add(this.btnTestConnectivity);
+            this.groupBox3.Controls.Add(this.txtPort);
+            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Controls.Add(this.txtIPAddress);
+            this.groupBox3.Controls.Add(this.label4);
+            this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox3.Location = new System.Drawing.Point(3, 218);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(531, 64);
+            this.groupBox3.TabIndex = 8;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Connectivity test";
             // 
-            // txtMaxSize
+            // btnTestConnectivity
             // 
-            this.txtMaxSize.Location = new System.Drawing.Point(376, 6);
-            this.txtMaxSize.MaxLength = 2;
-            this.txtMaxSize.Name = "txtMaxSize";
-            this.txtMaxSize.Size = new System.Drawing.Size(77, 20);
-            this.txtMaxSize.TabIndex = 1;
+            this.btnTestConnectivity.Location = new System.Drawing.Point(295, 30);
+            this.btnTestConnectivity.Name = "btnTestConnectivity";
+            this.btnTestConnectivity.Size = new System.Drawing.Size(75, 23);
+            this.btnTestConnectivity.TabIndex = 4;
+            this.btnTestConnectivity.Text = "Test";
+            this.btnTestConnectivity.UseVisualStyleBackColor = true;
+            this.btnTestConnectivity.Click += new System.EventHandler(this.btnTestConnectivity_Click);
+            // 
+            // txtPort
+            // 
+            this.txtPort.Location = new System.Drawing.Point(215, 31);
+            this.txtPort.Name = "txtPort";
+            this.txtPort.Size = new System.Drawing.Size(74, 20);
+            this.txtPort.TabIndex = 3;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(183, 30);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(26, 13);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "Port";
+            // 
+            // txtIPAddress
+            // 
+            this.txtIPAddress.Location = new System.Drawing.Point(75, 31);
+            this.txtIPAddress.Name = "txtIPAddress";
+            this.txtIPAddress.Size = new System.Drawing.Size(100, 20);
+            this.txtIPAddress.TabIndex = 1;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(10, 30);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(58, 13);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "IP Address";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.lblCurrentUsername);
+            this.groupBox2.Controls.Add(this.label6);
+            this.groupBox2.Controls.Add(this.btnUninstall);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.lblServicestatus);
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox2.Location = new System.Drawing.Point(8, 103);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(531, 92);
+            this.groupBox2.TabIndex = 7;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Status";
+            // 
+            // btnUninstall
+            // 
+            this.btnUninstall.Location = new System.Drawing.Point(182, 25);
+            this.btnUninstall.Name = "btnUninstall";
+            this.btnUninstall.Size = new System.Drawing.Size(107, 23);
+            this.btnUninstall.TabIndex = 5;
+            this.btnUninstall.Text = "Uninstall Service";
+            this.btnUninstall.UseVisualStyleBackColor = true;
+            this.btnUninstall.Click += new System.EventHandler(this.btnUninstall_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(10, 30);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(76, 13);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "Service Status";
+            // 
+            // lblServicestatus
+            // 
+            this.lblServicestatus.AutoSize = true;
+            this.lblServicestatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblServicestatus.Location = new System.Drawing.Point(114, 28);
+            this.lblServicestatus.Name = "lblServicestatus";
+            this.lblServicestatus.Size = new System.Drawing.Size(40, 15);
+            this.lblServicestatus.TabIndex = 4;
+            this.lblServicestatus.Text = "State";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.txtMaxSize);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Location = new System.Drawing.Point(8, 17);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(531, 70);
+            this.groupBox1.TabIndex = 6;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "File size limit";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(3, 10);
+            this.label1.Location = new System.Drawing.Point(6, 27);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(268, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Maximum file size to transfer between server and clients";
+            // 
+            // txtMaxSize
+            // 
+            this.txtMaxSize.Location = new System.Drawing.Point(292, 24);
+            this.txtMaxSize.MaxLength = 2;
+            this.txtMaxSize.Name = "txtMaxSize";
+            this.txtMaxSize.Size = new System.Drawing.Size(77, 20);
+            this.txtMaxSize.TabIndex = 1;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(390, 27);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(54, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Megabyte";
             // 
             // tabPage2
             // 
@@ -165,34 +292,24 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // label3
+            // label6
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(3, 42);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(76, 13);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "Service Status";
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(31, 61);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(55, 13);
+            this.label6.TabIndex = 9;
+            this.label6.Text = "Username";
             // 
-            // lblServicestatus
+            // lblCurrentUsername
             // 
-            this.lblServicestatus.AutoSize = true;
-            this.lblServicestatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblServicestatus.Location = new System.Drawing.Point(107, 42);
-            this.lblServicestatus.Name = "lblServicestatus";
-            this.lblServicestatus.Size = new System.Drawing.Size(40, 15);
-            this.lblServicestatus.TabIndex = 4;
-            this.lblServicestatus.Text = "State";
-            // 
-            // btnUninstall
-            // 
-            this.btnUninstall.Location = new System.Drawing.Point(225, 42);
-            this.btnUninstall.Name = "btnUninstall";
-            this.btnUninstall.Size = new System.Drawing.Size(107, 23);
-            this.btnUninstall.TabIndex = 5;
-            this.btnUninstall.Text = "Uninstall Service";
-            this.btnUninstall.UseVisualStyleBackColor = true;
+            this.lblCurrentUsername.AutoSize = true;
+            this.lblCurrentUsername.Location = new System.Drawing.Point(114, 61);
+            this.lblCurrentUsername.Name = "lblCurrentUsername";
+            this.lblCurrentUsername.Size = new System.Drawing.Size(63, 13);
+            this.lblCurrentUsername.TabIndex = 10;
+            this.lblCurrentUsername.Text = "Username";
             // 
             // FrmSettings
             // 
@@ -208,7 +325,12 @@
             this.Text = "Settings";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grdValidUsers)).EndInit();
             this.tabPage3.ResumeLayout(false);
@@ -233,5 +355,15 @@
         private System.Windows.Forms.Label lblServicestatus;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnUninstall;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button btnTestConnectivity;
+        private System.Windows.Forms.TextBox txtPort;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtIPAddress;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label lblCurrentUsername;
+        private System.Windows.Forms.Label label6;
     }
 }
