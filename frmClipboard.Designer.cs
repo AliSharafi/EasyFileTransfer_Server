@@ -28,26 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnSend = new System.Windows.Forms.Button();
+            this.btnSendToClient = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.txtClipboard = new System.Windows.Forms.RichTextBox();
+            this.btnCopy = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // btnSend
+            // btnSendToClient
             // 
-            this.btnSend.BackColor = System.Drawing.Color.Wheat;
-            this.btnSend.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSend.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.btnSend.FlatAppearance.BorderSize = 0;
-            this.btnSend.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSend.Location = new System.Drawing.Point(0, 122);
-            this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(349, 31);
-            this.btnSend.TabIndex = 1;
-            this.btnSend.Text = "Send To Server";
-            this.btnSend.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnSend.UseVisualStyleBackColor = false;
-            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
+            this.btnSendToClient.BackColor = System.Drawing.Color.Salmon;
+            this.btnSendToClient.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSendToClient.FlatAppearance.BorderSize = 0;
+            this.btnSendToClient.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSendToClient.Location = new System.Drawing.Point(188, 122);
+            this.btnSendToClient.Name = "btnSendToClient";
+            this.btnSendToClient.Size = new System.Drawing.Size(162, 31);
+            this.btnSendToClient.TabIndex = 1;
+            this.btnSendToClient.Text = "Send To Client";
+            this.btnSendToClient.UseVisualStyleBackColor = false;
+            this.btnSendToClient.Click += new System.EventHandler(this.btnSendToClient_Click);
             // 
             // btnClose
             // 
@@ -66,7 +65,7 @@
             // 
             // txtClipboard
             // 
-            this.txtClipboard.BackColor = System.Drawing.Color.Wheat;
+            this.txtClipboard.BackColor = System.Drawing.Color.Salmon;
             this.txtClipboard.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtClipboard.Location = new System.Drawing.Point(0, 21);
             this.txtClipboard.Name = "txtClipboard";
@@ -74,15 +73,30 @@
             this.txtClipboard.TabIndex = 3;
             this.txtClipboard.Text = "";
             // 
+            // btnCopy
+            // 
+            this.btnCopy.BackColor = System.Drawing.Color.Salmon;
+            this.btnCopy.FlatAppearance.BorderSize = 0;
+            this.btnCopy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCopy.Location = new System.Drawing.Point(0, 122);
+            this.btnCopy.Name = "btnCopy";
+            this.btnCopy.Size = new System.Drawing.Size(182, 31);
+            this.btnCopy.TabIndex = 4;
+            this.btnCopy.Text = "Copy";
+            this.btnCopy.UseVisualStyleBackColor = false;
+            this.btnCopy.Visible = false;
+            this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
+            // 
             // FrmClipboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Wheat;
+            this.BackColor = System.Drawing.Color.Salmon;
             this.ClientSize = new System.Drawing.Size(349, 153);
+            this.Controls.Add(this.btnCopy);
             this.Controls.Add(this.txtClipboard);
             this.Controls.Add(this.btnClose);
-            this.Controls.Add(this.btnSend);
+            this.Controls.Add(this.btnSendToClient);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmClipboard";
             this.Opacity = 0.75D;
@@ -95,8 +109,9 @@
 
 
         #endregion
-        private System.Windows.Forms.Button btnSend;
+        private System.Windows.Forms.Button btnSendToClient;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.RichTextBox txtClipboard;
+        private System.Windows.Forms.Button btnCopy;
     }
 }

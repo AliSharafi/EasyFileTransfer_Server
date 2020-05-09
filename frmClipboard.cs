@@ -6,9 +6,11 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using EasyFileTransfer.Utils;
+using WK.Libraries.SharpClipboardNS;
 
 namespace EasyFileTransfer
 {
@@ -36,7 +38,7 @@ namespace EasyFileTransfer
             }
             set
             {
-                txtClipboard.Invoke(new Action(() => txtClipboard.Text = value));
+                txtClipboard.Invoke(new Action(() => txtClipboard.Text = value)) ;
             }
         }
 
@@ -58,11 +60,12 @@ namespace EasyFileTransfer
             Close();
         }
 
-        private void btnSend_Click(object sender, EventArgs e)
+        
+        private void btnSendToClient_Click(object sender, EventArgs e)
         {
             try
             {
-                string path = string.Concat(Directory.GetCurrentDirectory() + "\\clipboard.txt");
+                string path = string.Concat(Directory.GetCurrentDirectory() + "\\clipboard_ServerToClient.txt");
                 File.Delete(path);
                 using (StreamWriter sw = File.CreateText(path))
                 {
@@ -77,6 +80,11 @@ namespace EasyFileTransfer
                 MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             Close();
+        }
+
+        private void btnCopy_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

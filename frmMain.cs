@@ -13,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using EasyFileTransfer.Utils;
+using WK.Libraries.SharpClipboardNS;
 
 namespace EasyFileTransfer
 {
@@ -49,6 +50,19 @@ namespace EasyFileTransfer
             else
             {
                 StartWatching();
+
+                var clipboard = new SharpClipboard();
+                clipboard.ClipboardChanged += Clipboard_ClipboardChanged;
+            }
+        }
+
+        private void Clipboard_ClipboardChanged(object sender, SharpClipboard.ClipboardChangedEventArgs e)
+        {
+            if (e.ContentType == SharpClipboard.ContentTypes.Text && e.Content.ToString().Trim() != "")
+            {
+                FrmClipboard f = FrmClipboard.GetForm(e.Content.ToString());
+                
+                f.Show();
             }
         }
 
@@ -60,6 +74,7 @@ namespace EasyFileTransfer
 
             watcher = new FileSystemWatcher();
             watcher.Path = string.Concat(Helper.GetCurrentEmployeeSavePath(), "\\");
+
             watcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.LastAccess | NotifyFilters.CreationTime | NotifyFilters.FileName;
             watcher.Filter = "clipboard.txt";
 
@@ -67,6 +82,7 @@ namespace EasyFileTransfer
             watcher.Changed += Watcher_Created;
 
             watcher.EnableRaisingEvents = true;
+
         }
 
         DateTime lastRead = DateTime.MinValue;
@@ -110,7 +126,7 @@ namespace EasyFileTransfer
 
         private void frmMain_FormClosed(object sender, FormClosedEventArgs e)
         {
-            WindowsContextMenu.Remove("Send To My Client");
+            //WindowsContextMenu.Remove("Send To My Client");
         }
         #endregion
 
@@ -172,6 +188,7 @@ namespace EasyFileTransfer
         #region Windows service 
         private void DoServiceStuff()
         {
+
             try
             {
                 string EFTServiceName = "EFTService";

@@ -23,7 +23,7 @@ namespace EasyFileTransfer
             // test if this is the first instance and register receiver, if so.
             if (SingletonController.IamFirst(new SingletonController.ReceiveDelegate(SecondRun),_port))
             {
-                WindowsContextMenu.Add("Send To My Client");
+                //WindowsContextMenu.Add("Send To My Client");
                 Application.Run(new frmMain(args,new FileTransfer()));
             }
             else
